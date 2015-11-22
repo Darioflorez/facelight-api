@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="28f8a907-1f3f-4e96-8305-e275a0497f24" name="Default" comment="" />
+    <list default="true" id="28f8a907-1f3f-4e96-8305-e275a0497f24" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="FaceLightAPI.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -760,12 +762,12 @@
       <created>1448189194798</created>
       <option name="number" value="Default" />
       <updated>1448189194798</updated>
-      <workItem from="1448189199939" duration="6740000" />
+      <workItem from="1448189199939" duration="7126000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6740000" />
+    <option name="totallyTimeSpent" value="7126000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
