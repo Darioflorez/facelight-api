@@ -5,13 +5,13 @@
          version="3.1">
 
     <servlet>
-        <servlet-name>Jersey Web Application</servlet-name>
+        <servlet-name>FaceLight API</servlet-name>
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Jersey Web Application</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <servlet-name>FaceLight API</servlet-name>
+        <url-pattern>/api.facelight/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
