@@ -1,72 +1,59 @@
 package com.lab.serverdevelopment.resources;
 
+import com.lab.serverdevelopment.ViewModels.UserViewModel;
+import com.lab.serverdevelopment.forms.UserForm;
+import com.lab.serverdevelopment.handlers.UserHandler;
 import com.lab.serverdevelopment.models.User;
-import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dario on 2015-11-22.
  */
 
 @Path("/users")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class UserResource {
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getUsers(){
-        //Return all users
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("users", "return a list of users");
+    public List<User> getUsers(){
+        User u1 = new User ();
+        u1.setFirstName("dario");
+        User u2 = new User();
+        u2.setFirstName("andres");
+        List<User> list = new ArrayList<>();
+        list.add(u1);
+        list.add(u2);
 
-        String result = "" + jsonObject;
-
-        return Response.status(200).entity(result).build();
+        return list;
     }
 
-    @Path("{id}")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public User getUser(@PathParam("id") Long id){
+    @Path("{id}")
+    public UserViewModel getUser(@PathParam("id") Long id){
+        return UserHandler.find(id);
+    }
 
-        User user = new User(id, "dario");
+    @POST
+    public UserViewModel registerUser(UserForm user){
+        return UserHandler.createUser(user);
+    }
+
+    @PUT
+    @Path("{id}")
+    public User updateUser(@PathParam("id") Long id, User user){
 
         return user;
     }
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response registerUser(){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("user", "user registered success!");
-
-        String result = "" + jsonObject;
-
-        return Response.status(201).entity(result).build();
-    }
-
-    @PUT
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response updateUser(){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("user", "user updated!");
-
-        String result = "" + jsonObject;
-
-        return Response.status(200).entity(result).build();
-    }
-
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteUser(){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("user", "user deleted!");
-
-        String result = "" + jsonObject;
-
-        return Response.status(204).entity(result).build();
+    @Path("{id}")
+    public void deleteUser(@PathParam("id") Long id){
+        System.out.println("Message deleted!");
     }
 
 

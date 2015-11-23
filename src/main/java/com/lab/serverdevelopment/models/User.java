@@ -1,35 +1,117 @@
 package com.lab.serverdevelopment.models;
 
+import javax.persistence.*;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Collection;
+
 /**
- * Created by Dario on 2015-11-22.
+ * Created by dario on 2015-11-04.
  */
-public class User {
+@Entity
+@Table(name = "user")
+@Access(AccessType.FIELD)
+@NamedQuery(
+        name="findAllUsersByName",
+        query="SELECT OBJECT(user) FROM User user WHERE user.firstName like :firstName"
+)
+public class User implements Serializable {
 
-    Long id;
-    String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public User(){
+    @Column(unique = true, nullable = false)
+    private String email;
 
-    }
+    @Column(nullable = false)
+    private String password;
 
-    public User(Long id, String name){
-        this.id = id;
-        this.name = name;
-    }
+    @Column(nullable = false)
+    private String passwordConfirmation;
+
+    @Column(nullable = false)
+    private String firstName;
+
+    private String lastName;
+
+    private String nickname;
+
+
+    @OneToMany(mappedBy="sender", targetEntity = Message.class, fetch = FetchType.EAGER)
+    private Collection<Message> sendMessages;
+
+    @OneToMany(mappedBy="receiver", targetEntity = Message.class, fetch = FetchType.EAGER)
+    private Collection<Message> receivedMessages;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getEmail() {
+        return email;
     }
 
-    public String getName() {
-        return name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
+    }
+
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        this.passwordConfirmation = passwordConfirmation;
+    }
+
+    public Collection<Message> getReceivedMessages() {
+        return receivedMessages;
+    }
+
+    public void setReceivedMessages(Collection<Message> receivedMessages) {
+        this.receivedMessages = receivedMessages;
+    }
+
+    public Collection<Message> getSendMessages() {
+        return sendMessages;
+    }
+
+    public void setSendMessages(Collection<Message> sendMessages) {
+        this.sendMessages = sendMessages;
     }
 }
