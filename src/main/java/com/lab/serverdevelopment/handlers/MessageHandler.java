@@ -22,41 +22,18 @@ public class MessageHandler {
     private static MessageDAO messageDAO = new MessageDAO();
     private static UserDAO userDAO = new UserDAO();
 
-    public static ArrayList<MessageViewModel> getAllMessages(Long userId){
-        //Fix return just PUBLIC MESSAGES
-        ArrayList<MessageViewModel> userMessages = new ArrayList<>();
-        List<Message> receivedMessages = (List<Message>)messageDAO.getReceivedMessages(userId);
-        List<Message> sendMessages = (List<Message>)messageDAO.getSendMessages(userId);
+    public static List<MessageViewModel> getPublicMessages(Long userId){
+        List<Message> receivedMessages = messageDAO.getReceivedMessages(userId);
+        List<Message> sendMessages = messageDAO.getSendMessages(userId);
 
-        receivedMessages
-                .stream()
-                .filter(m -> m.getType().equals(MessageType.PUBLIC))
-                .forEach(m -> addMessageToMessageBean(userMessages, m));
-
-        sendMessages
-                .stream()
-                .filter(m -> m.getType().equals(MessageType.PUBLIC))
-                .forEach(m -> addMessageToMessageBean(userMessages, m));
-
-        return userMessages;
+        return messageListToMessageViewModelList(receivedMessages,sendMessages,MessageType.PUBLIC );
     }
 
-    public static ArrayList<MessageViewModel> getPrivateMessages(UserViewModel user){
-        ArrayList<MessageViewModel> userMessages = new ArrayList<>();
-        List<Message> receivedMessages = (List<Message>)messageDAO.getReceivedMessages(user.getId());
-        List<Message> sendMessages = (List<Message>)messageDAO.getSendMessages(user.getId());
+    public static List<MessageViewModel> getPrivateMessages(Long userId){
+        List<Message> receivedMessages = messageDAO.getReceivedMessages(userId);
+        List<Message> sendMessages = messageDAO.getSendMessages(userId);
 
-        receivedMessages
-                .stream()
-                .filter(m -> m.getType().equals(MessageType.PRIVATE))
-                .forEach(m -> addMessageToMessageBean(userMessages, m));
-
-        sendMessages
-                .stream()
-                .filter(m -> m.getType().equals(MessageType.PRIVATE))
-                .forEach(m -> addMessageToMessageBean(userMessages, m));
-
-        return userMessages;
+        return messageListToMessageViewModelList(receivedMessages,sendMessages,MessageType.PRIVATE );
     }
 
     public static boolean createMessage(MessageForm message){
@@ -76,6 +53,22 @@ public class MessageHandler {
         return (created != null);
     }
 
+    private static List<MessageViewModel> messageListToMessageViewModelList(List<Message> receivedMessages,
+                                                                            List<Message> sendMessages,
+                                                                            MessageType type){
+        ArrayList<MessageViewModel> userMessages = new ArrayList<>();
+        receivedMessages
+                .stream()
+                .filter(m -> m.getType().equals(type))
+                .forEach(m -> addMessageToMessageBean(userMessages, m));
+
+        sendMessages
+                .stream()
+                .filter(m -> m.getType().equals(type))
+                .forEach(m -> addMessageToMessageBean(userMessages, m));
+
+        return userMessages;
+    }
     private static void addMessageToMessageBean(ArrayList<MessageViewModel> userMessages, Message m){
         MessageViewModel message = new MessageViewModel();
         UserViewModel sender = new UserViewModel(m.getId(),m.getSender().getFirstName(), m.getSender().getLastName());

@@ -7,18 +7,12 @@ import com.lab.serverdevelopment.models.User;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by dario on 2015-11-06.
  */
 public class UserDAO extends GenericDaoImpl<User> {
-
-
-    public UserDAO() {
-        super();
-    }
 
     public User getUser(Long id){
         EntityManager em = EntityManagerUtil.getEntityManager().createEntityManager();
@@ -33,11 +27,11 @@ public class UserDAO extends GenericDaoImpl<User> {
         return user;
     }
 
-    public List listUsers(){
+    public List<User> listUsers(){
         EntityManager em = EntityManagerUtil.getEntityManager().createEntityManager();
-        List result = null;
+        List<User> result = null;
         try{
-            result = em.createQuery("select user from User user").getResultList();
+            result = em.createQuery("select user from User user",User.class).getResultList();
         }catch (NoResultException e){
             System.out.println(e.getMessage());
         }finally {
@@ -46,10 +40,10 @@ public class UserDAO extends GenericDaoImpl<User> {
         return result;
     }
 
-    public List listUserByName(String userName){
+    public List<User> listUserByName(String userName){
         EntityManager em = EntityManagerUtil.getEntityManager().createEntityManager();
         userName = "%"+userName+"%";
-        List users = null;
+        List<User> users = null;
         try{
             Query usersByName = em.createNamedQuery("findAllUsersByName");
             users = usersByName.setParameter("firstName", userName)
@@ -82,8 +76,8 @@ public class UserDAO extends GenericDaoImpl<User> {
         EntityManager em = EntityManagerUtil.getEntityManager().createEntityManager();
         User user = null;
         try {
-            user =  (User) em.createQuery("select user from User user " +
-                    "where user.email = ?1")
+            user =  em.createQuery("select user from User user " +
+                    "where user.email = ?1", User.class)
                     .setParameter(1, email)
                     .getSingleResult();
         }catch (NoResultException ex){
