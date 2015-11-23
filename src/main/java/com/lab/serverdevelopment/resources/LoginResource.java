@@ -1,30 +1,24 @@
 package com.lab.serverdevelopment.resources;
 
-import org.json.JSONObject;
+import com.lab.serverdevelopment.ViewModels.UserViewModel;
+import com.lab.serverdevelopment.forms.LoginForm;
+import com.lab.serverdevelopment.handlers.UserHandler;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 /**
  * Created by Dario on 2015-11-22.
  */
 
 @Path("/login")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class LoginResource {
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getMessage() {
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name","dario");
-        jsonObject.put("email","dario@email.com");
-
-        String result = "" + jsonObject;
-        return Response.status(200).entity(result).build();
+    @POST
+    public UserViewModel authenticateUser(LoginForm userAuthenticationData) {
+        return UserHandler.authenticateUser(userAuthenticationData);
     }
 
 }

@@ -3,11 +3,9 @@ package com.lab.serverdevelopment.resources;
 import com.lab.serverdevelopment.ViewModels.UserViewModel;
 import com.lab.serverdevelopment.forms.UserForm;
 import com.lab.serverdevelopment.handlers.UserHandler;
-import com.lab.serverdevelopment.models.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,16 +18,11 @@ import java.util.List;
 public class UserResource {
 
     @GET
-    public List<User> getUsers(){
-        User u1 = new User ();
-        u1.setFirstName("dario");
-        User u2 = new User();
-        u2.setFirstName("andres");
-        List<User> list = new ArrayList<>();
-        list.add(u1);
-        list.add(u2);
-
-        return list;
+    public List<UserViewModel> getUsers(@QueryParam("name") String name){
+        if(name != null){
+            return UserHandler.getUserByName(name);
+        }
+        return UserHandler.getAllUsers();
     }
 
     @GET
@@ -45,8 +38,7 @@ public class UserResource {
 
     @PUT
     @Path("{id}")
-    public User updateUser(@PathParam("id") Long id, User user){
-
+    public UserViewModel updateUser(@PathParam("id") Long id, UserViewModel user){
         return user;
     }
 
@@ -55,6 +47,7 @@ public class UserResource {
     public void deleteUser(@PathParam("id") Long id){
         System.out.println("Message deleted!");
     }
+
 
 
 

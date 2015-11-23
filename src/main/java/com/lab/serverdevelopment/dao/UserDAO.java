@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by dario on 2015-11-06.
@@ -32,9 +33,9 @@ public class UserDAO extends GenericDaoImpl<User> {
         return user;
     }
 
-    public Collection listUsers(){
+    public List listUsers(){
         EntityManager em = EntityManagerUtil.getEntityManager().createEntityManager();
-        Collection result = null;
+        List result = null;
         try{
             result = em.createQuery("select user from User user").getResultList();
         }catch (NoResultException e){
@@ -45,10 +46,10 @@ public class UserDAO extends GenericDaoImpl<User> {
         return result;
     }
 
-    public Collection listUserByName(String userName){
+    public List listUserByName(String userName){
         EntityManager em = EntityManagerUtil.getEntityManager().createEntityManager();
         userName = "%"+userName+"%";
-        Collection users = null;
+        List users = null;
         try{
             Query usersByName = em.createNamedQuery("findAllUsersByName");
             users = usersByName.setParameter("firstName", userName)
