@@ -71,8 +71,8 @@ public class MessageHandler {
     }
     private static void addMessageToMessageBean(ArrayList<MessageViewModel> userMessages, Message m){
         MessageViewModel message = new MessageViewModel();
-        UserViewModel sender = new UserViewModel(m.getId(),m.getSender().getFirstName(), m.getSender().getLastName());
-        UserViewModel receiver = new UserViewModel(m.getId(),m.getReceiver().getFirstName(), m.getReceiver().getLastName());
+        UserViewModel sender = new UserViewModel(m.getSender().getId(),m.getSender().getFirstName(), m.getSender().getLastName());
+        UserViewModel receiver = new UserViewModel(m.getReceiver().getId(),m.getReceiver().getFirstName(), m.getReceiver().getLastName());
 
         message.setType(m.getType());
         message.setSubject(m.getSubject());
