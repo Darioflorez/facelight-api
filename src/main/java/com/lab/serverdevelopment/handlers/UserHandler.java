@@ -65,6 +65,7 @@ public class UserHandler {
     }
 
     private static List<UserViewModel> usersToUserViewModelList(List<User> users){
+        //This is a comment
         ArrayList<UserViewModel> usersModelView = new ArrayList<>();
         users.forEach(m -> usersModelView.add(
                 new UserViewModel(m.getId(), m.getFirstName(), m.getLastName())));
